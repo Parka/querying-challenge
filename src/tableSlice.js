@@ -34,7 +34,7 @@ export const tableSlice = createSlice({
       state.result = action.payload;
     },
     set_loading: (state, action) => {
-      state.sort = action.payload;
+      state.loading = action.payload;
     }
   }
 })
@@ -49,10 +49,24 @@ export const {
   set_loading
 } = tableSlice.actions;
 
+const filterTemplate = ({field, value}) => typeof value === "boolean" ?
+  `{"${field}": ${value}}`:
+  `{"${field}": {"$regex": ".*${value}.*"}}`;
+
+const queryTemplate = (filters) => filters.length?`?q={"$and":[${filters.map(filterTemplate).join(',')}]}` : '';
+
 export const getFilteredData = () => async (dispatch, getState) => {
   dispatch(set_loading(true));
   const state = getState();
-  const response = await fetch();
+  const {id='', CUIT='', name='', active=false, inactive=false} = state.table;
+  const filters = [
+    ...id.split(' ').filter(Boolean).map(value => ({field: 'ID', value})),
+    ...CUIT.split(' ').filter(Boolean).map(value => ({field: 'CUIT', value})),
+    ...name.split(' ').filter(Boolean).map(value => ({field: 'Comercio', value})),
+    active && {field: 'active', value: true},
+    inactive && {field: 'active', value: false},
+  ].filter(Boolean);
+  const response = await fetch(queryTemplate(filters));
   const result = await response.json();
   dispatch(set_result(result))
   dispatch(set_loading(false));

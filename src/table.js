@@ -10,11 +10,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Table_ = ({data=[]}) => {
-  const result = useSelector(state=>state.table.result);
+const Table_ = () => {
+  const [loading, result] = useSelector(state=>[state.table.loading, state.table.result]);
+  console.log('loading: ', loading)
   const dispatch = useDispatch();
-  console.log(result)
+  if(loading) return (
+    <div style={{display: 'flex', justifyContent: 'center', padding: 60}}>
+      <CircularProgress/>
+    </div>
+  );
   const rows = result['data to show'] || [];
   return (
   <Paper elevation={3}>
