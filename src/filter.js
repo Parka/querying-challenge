@@ -28,9 +28,9 @@ const Filter = () => {
         <FormLabel component="legend" style={{paddingBottom: 20}}>Filtros</FormLabel>
         <Paper elevation={3} style={{padding: 20}}>
           <div style={{display:'flex', flexDirection:'row', alignItems:'center', paddingBottom:20}}>
-            <TextField id="standard-basic" label="id" value={id} onChange={e => dispatch(set_id(event.target.value))}/>
-            <TextField id="standard-basic" label="CUIT" value={CUIT} onChange={e => dispatch(set_CUIT(event.target.value))}/>
-            <TextField id="standard-basic" label="Nombre" value={name} onChange={e => dispatch(set_name(event.target.value))}/>
+            <TextField id="id" label="id" value={id} onChange={e => dispatch(set_id(event.target.value))}/>
+            <TextField id="CUIT" label="CUIT" value={CUIT} onChange={e => dispatch(set_CUIT(event.target.value))}/>
+            <TextField id="name" label="Comercio" value={name} onChange={e => dispatch(set_name(event.target.value))}/>
             <div style={{marginLeft:40}}>
               <FormControlLabel
                 control={

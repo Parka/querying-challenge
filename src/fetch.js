@@ -31,7 +31,8 @@ const MOCK = {
 const component = (query='', options)=> {
   console.log(`%c >>> ${query}`, 'color: green; background: black; font-weight:bold; font-size: 14px;');
   if (!process.env.API_ENDPOINT)
-    return MOCK
+    return new Promise(resolve=>setTimeout(()=>resolve(MOCK), 2000))
+
   const url = process.env.API_ENDPOINT + query;
   return fetch(url , {headers: myHeaders, ...options})
 }
