@@ -14,8 +14,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Table_ = () => {
   const [loading, result] = useSelector(state=>[state.table.loading, state.table.result]);
-  console.log('loading: ', loading)
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
+
   if(loading) return (
     <div style={{display: 'flex', justifyContent: 'center', padding: 60}}>
       <CircularProgress/>
