@@ -13,7 +13,7 @@ API_ENDPOINT=[YOUR API ENDPOINT HERE]
 API_KEY=[YOUR API KEY HERE]
 ```
 if no `API_ENDPOINT` is provided, mock data is generated.
-`API_KEY` is not mandatory and was added to use a test a restdb endpoint.
+`API_KEY` is not mandatory and was added to use a test restdb endpoint.
 
 Assumptions:
   - API reponse's keys are verbatim as taken from challenge requirements.

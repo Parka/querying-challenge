@@ -53,12 +53,15 @@ const filterTemplate = ({field, value}) => typeof value === "boolean" ?
   `{"${field}": ${value}}`:
   `{"${field}": {"$regex": ".*${value}.*"}}`;
 
-const queryTemplate = (filters) => filters.length?`?q={"$and":[${filters.map(filterTemplate).join(',')}]}` : '';
+const queryTemplate = (filters) => filters.length ?
+  `?q={"$and":[${filters.map(filterTemplate).join(', ')}]}` :
+  '' ;
 
 export const getFilteredData = () => async (dispatch, getState) => {
   dispatch(set_loading(true));
   const state = getState();
   const {id='', CUIT='', name='', active=false, inactive=false} = state.table;
+
   const filters = [
     ...id.split(' ').filter(Boolean).map(value => ({field: 'ID', value})),
     ...CUIT.split(' ').filter(Boolean).map(value => ({field: 'CUIT', value})),
@@ -66,8 +69,10 @@ export const getFilteredData = () => async (dispatch, getState) => {
     active && {field: 'active', value: true},
     inactive && {field: 'active', value: false},
   ].filter(Boolean);
+
   const response = await fetch(queryTemplate(filters));
   const result = await response.json();
+
   dispatch(set_result(result))
   dispatch(set_loading(false));
 }

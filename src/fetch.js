@@ -1,11 +1,7 @@
 import moment from 'moment';
 
-var myHeaders = new Headers();
-if(process.env.API_KEY)
-  myHeaders.append("x-apikey", process.env.API_KEY);
-
-
 const generateAmount = (order=3)=>Math.round(Math.random() * Math.pow(10, order) *100)/100;
+
 const MOCK = {
   json: () => ({
     ['data to show']: [... new Array(50)].map((x, id)=>({
@@ -28,10 +24,15 @@ const MOCK = {
   })
 }
 
-const component = (query='', options)=> {
-  console.log(`%c >>> ${query}`, 'color: green; background: black; font-weight:bold; font-size: 14px;');
+const component = (query='', { headers, ...options}={})=> {
+  console.log(`%c >>> ${JSON.stringify(JSON.parse(query?query.slice(3):'{}'), null, 2)}`, 'color: green; background: black; font-weight:bold; font-size: 14px;');
+
   if (!process.env.API_ENDPOINT)
-    return new Promise(resolve=>setTimeout(()=>resolve(MOCK), 2000))
+    return new Promise(resolve => setTimeout(() => resolve(MOCK), 2000))
+
+  var myHeaders = new Headers(headers);
+  if(process.env.API_KEY)
+    myHeaders.append("x-apikey", process.env.API_KEY);
 
   const url = process.env.API_ENDPOINT + query;
   return fetch(url , {headers: myHeaders, ...options})
