@@ -24,8 +24,27 @@ const MOCK = {
   })
 }
 
+const logQuery = (query) =>
+  console.log(
+    `%c${addSpaces(` >>> ${prettyPrint(query)}`)}`,
+    'color: green; background: black; font-weight:bold; font-size: 14px;'
+);
+
+const prettyPrint = txt =>
+  JSON.stringify(
+    JSON.parse(txt),
+    null,
+    2
+  );
+
+const addSpaces = txt =>
+  txt
+    .split('\n')
+    .map(x=>x+(new Array(Math.max(120-x.length, 0))).join(' '))
+    .join('\n');
+
 const component = (query='', { headers, ...options}={})=> {
-  console.log(`%c >>> ${JSON.stringify(JSON.parse(query?query.slice(3):'{}'), null, 2)}`, 'color: green; background: black; font-weight:bold; font-size: 14px;');
+  logQuery(query?query.slice(3):'{}');
 
   if (!process.env.API_ENDPOINT)
     return new Promise(resolve => setTimeout(() => resolve(MOCK), 2000))
